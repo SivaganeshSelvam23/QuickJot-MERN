@@ -1,6 +1,7 @@
-import React from "react";
-import MainScreen from "../../components/MainScreen";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import MainScreen from "../../components/MainScreen";
 import {
   Accordion,
   Badge,
@@ -8,9 +9,18 @@ import {
   Card,
   useAccordionButton,
 } from "react-bootstrap";
-import notes from "../../data/notes";
 
 function MyNotes() {
+  const [notes, setNotes] = useState([]);
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  const fetchNotes = async () => {
+    const { data } = await axios.get("/api/notes");
+    setNotes(data);
+  };
+
   const deleteHandler = (id) => {
     if (window.confirm("Are You Sure Want To Delete?")) {
     }
